@@ -8,13 +8,19 @@ import { Route, Routes } from 'react-router-dom'
 import { useState } from 'react'
 import Footer from './components/Footer/Footer'
 import LoginPopup from './components/LoginPopup/LoginPopup'
+import { useContext } from 'react'
+import { StoreContext } from './context/StoreContext'
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
+   const { cartItems } = useContext(StoreContext);
+
+   // Calculate total count
+  const cartCount = Object.values(cartItems).reduce((sum, qty) => sum + qty, 0);
   return (
     <>
     {showLogin?<LoginPopup  setShowLogin={setShowLogin}/>:<></>} 
       <div className='app'>
-        <Navbar setShowLogin={setShowLogin}/>
+        <Navbar setShowLogin={setShowLogin} cartCount={cartCount} />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/cart" element={<Cart />} />
